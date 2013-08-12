@@ -32,10 +32,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="21" selection-start="214" selection-end="214" vertical-scroll-proportion="0.30237153">
+            <state line="22" column="16" selection-start="284" selection-end="284" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ignore.gitignore" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ignore.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="2" selection-start="2" selection-end="2" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -68,6 +77,7 @@
         <option value="$PROJECT_DIR$/test/MyCore.ImageLoader.test/MyCore.ImageLoader.test.html" />
         <option value="$PROJECT_DIR$/src/MyCore.Log.js" />
         <option value="$PROJECT_DIR$/README" />
+        <option value="$PROJECT_DIR$/ignore.gitignore" />
       </list>
     </option>
   </component>
@@ -300,11 +310,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test/old/MyUI.Slider.Demo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="55" selection-start="273" selection-end="273" vertical-scroll-proportion="-0.65384614" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/old/MyUI.Block.Demo.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="0" selection-start="438" selection-end="438" vertical-scroll-proportion="0.0" />
@@ -389,7 +394,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="21" selection-start="214" selection-end="214" vertical-scroll-proportion="0.30237153">
+        <state line="22" column="16" selection-start="284" selection-end="284" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ignore.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="2" selection-start="2" selection-end="2" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
