@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示 MyUI.BlockUIBase.js 功能</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyCore.Log.js"></script>
+    <script type="text/javascript" src="../MyOOP.Utils.js"></script>
+    <script type="text/javascript" src="../MyOOP.Syntax.Module.js"></script>
+    <script type="text/javascript" src="../MyCore.WindowSize.js"></script>
+    <script type="text/javascript" src="../MyCore.Config.js"></script>
+    <script type="text/javascript" src="../MyUI.BlockUI.js"></script>
+</head>
+<body>
+<h1>演示  MyUI.BlockRegion.js  的功能</h1>
+<ul>
+	<li>1、block 函数【局部遮罩本地元素,支持同时遮罩多个】
+    
+       <div id="regionBlock1" style="width:200px;height:200px; background-color:green;"></div><br />
+       <button onclick="javascript:regionBlock('regionBlock1');">点击遮罩</button>
+       <button onclick="javascript:regionUnBlock('regionBlock1');">取消遮罩</button>
+       
+       <div id="regionBlock2" style="width:200px;height:200px; background-color:yellow;"></div><br />
+       <button onclick="javascript:regionBlock('regionBlock2');">点击遮罩</button>
+       <button onclick="javascript:regionUnBlock('regionBlock2');">取消遮罩</button>
+    </li>
+	<li>2、autoClose选项 函数【自动关闭】
+    
+       <div id="regionBlock3" style="width:200px;height:200px; background-color:white;"></div><br />
+       <button onclick="javascript:regionBlock2('regionBlock3');">点击遮罩</button>
+       <button onclick="javascript:regionUnBlock('regionBlock3');">取消遮罩</button>
+       <span id="tip"></span>
+    </li>
+</ul>
+
+<h1>演示  MyUI.BlockUIBase.js  的功能</h1>
+<ul>
+    <li>1、blockWith 函数【弹出遮罩本地元素】
+       
+       <div id="toBeShow" style="width:200px;height:200px; background-color:Blue;"></div><br />
+       <button onclick="javascript:openLayer();">点击弹出遮罩</button>
+    </li>
+    <li>2、blockWithHtml 函数【弹出遮罩给定Html】
+       
+       <button onclick="javascript:openLayer2();">弹出遮罩给定Html</button>
+    </li>
+    <li>3、unBlock 函数【取消遮罩】
+       
+       <button onclick="javascript:openLayer3();">弹出遮罩先</button><br />
+       <button onclick="javascript:unBlock();">取消遮罩</button>
+    </li>
+    <li>4、可以倒计时自动关闭,并订阅倒计时处理函数，也可以给整个弹出框添加关闭事件处理函数
+       
+       <button onclick="javascript:openLayer4();">点击弹出会自动关闭的层</button><br /><br />
+       <span id="timeLeft">这里即将显示剩余秒数</span>
+    </li>
+    <li>5、blockWithUrl 函数【使用远程url遮罩】
+       <button onclick="javascript:openLayer5();">点击弹出远程url(本地运行有跨域问题，建议测试环境测试)</button><br />
+
+    </li>
+    <li>6、也可以连续弹出几个窗口，看到平滑的变化
+       <button onclick="javascript:openLayer6();">点击看到平滑的变化</button><br />
+
+    </li>
+    <li>7、支持DOM加载完的事件
+       <button onclick="javascript:openLayer7();">支持DOM加载完的事件</button><br />
+
+    </li>
+    <li>8、unBlock 函数带按钮代码【实现复杂功能，如confirm框】
+       
+       <button onclick="javascript:confirmDemoShow();">弹出遮罩先</button><br />
+       <button onclick="javascript:confirmDemo();">取消遮罩</button>
+    </li>
+</ul>
+    
+    <script type="text/javascript">
+        function regionBlock2(id) {
+            MyUI.BlockRegion.block(id, {
+                showOverlay: true,
+                autoClose: {
+                    enable: true, //是否开启自动关闭功能
+                    autoCloseSeconds: 3, //自动关闭的时间
+                    onTick: function (seconds) {
+                        $("#tip").text(['剩余:',seconds,'S'].join(''));
+                    }
+                },
+                html: "<img src='images/loading2.gif' />",
+                onClose: function () {
+                    $("#tip").text('遮罩已经结束');
+                }
+
+            });
+
+        }
+        function regionBlock(id) {
+            MyUI.BlockRegion.block(id, {
+                showOverlay: true,
+//                html: "<h1>Processing...</h1>"
+//                html: "<img src='images/loading1.gif' />"
+                html: "<img src='images/loading2.gif' />"
+            });
+        };
+        function regionUnBlock(id) {
+            MyUI.BlockRegion.unBlock(id);
+        }
+
+
+        //confirm框    的模板
+        var _templateConfirm =
+    ['<div style="width:400px;height:200px;border:dotted;background-color: gray;">',
+        '<p style="color:red;padding-left: 140px;">',
+            '[这里是提示信息]',
+        '</p>',
+        '<a style="padding-left: 140px;color:yellow;" href="javascript:MyUI.BlockUIBase.unBlock(true);">确认</a>',
+        '<a  style="padding-left: 30px;color:yellow;" href="javascript:MyUI.BlockUIBase.unBlock(false);">取消</a>',
+    '</div>'].join('');
+
+        function confirmDemo() {
+            MyUI.BlockUIBase.unBlock(3);
+        }
+        function confirmDemoShow() {
+            MyUI.BlockUIBase.blockWithHtml(_templateConfirm, { clickOverlayToClose: false,
+                showOverlay:false,
+                callback: function (result) {
+                alert('弹出层已经关闭，result:' + result);
+            }
+            });
+        }
+
+        function openLayer7() {
+            MyUI.BlockUIBase.blockWith('toBeShow', { clickOverlayToClose: true, onLoadFunc: function () {
+                alert('DOM加载完成');
+            } 
+            });
+        }
+        function openLayer() {
+            MyUI.BlockUIBase.blockWith('toBeShow', { clickOverlayToClose: true });
+        }
+        function openLayer2() {
+            MyUI.BlockUIBase.blockWithHtml('<div style="width:400px;height:200px;background-color:#239a38;">这是给定的HTML</div>', { clickOverlayToClose: true });
+        }
+        function openLayer3() {
+            MyUI.BlockUIBase.blockWithHtml('<div style="width:400px;height:200px;background-color:#939a23;">这个弹出层无遮罩</div>', {
+                showOverlay: false,
+                callback: function (result) {
+                    alert('弹出层已经关闭，result:' + result);
+                }
+            });
+        }
+        function unBlock() {
+            MyUI.BlockUIBase.unBlock();
+        }
+        function openLayer4() {
+            MyUI.BlockUIBase.blockWithHtml('<div style="width:400px;height:200px;background-color:#939a23;">这个弹出层无遮罩</div>', {
+                autoClose: {
+                    enable: true,
+                    autoCloseSeconds: 6,
+                    callback: function (time) {
+                        $("#timeLeft").text(time);
+                    }
+                },
+                callback: function (result) {
+                    alert('弹出层已经关闭，result:' + result);
+                    $("#timeLeft").text('这里即将显示剩余秒数');
+                }
+            });
+        }
+        function openLayer5() {
+            MyUI.BlockUIBase.blockWithUrl('http://www.baidu.com');
+        }
+        function openLayer6() {
+            MyUI.BlockUIBase.blockWithHtml('<div style="width:400px;height:200px;background-color:#239a38;">这是给定的HTML</div>', {priority:1});
+            setTimeout(function () { MyUI.BlockUIBase.blockWithHtml('<div style="width:400px;height:300px;background-color:#23fff8;">这是给定的HTML2</div>', { priority: 1 }); }, 1000);
+            setTimeout(function () {
+                MyUI.BlockUIBase.blockWithHtml('<div style="width:500px;height:500px;background-color:#ffaaf8;">这是给定的HTML3</div>', { priority: 1, autoClose: {
+                    enable: true,
+                    autoCloseSeconds: 3,
+                    callback: function (time) {
+                        $("#timeLeft").text(time);
+                    }
+                }
+                });
+            }, 3000);
+        }
+        
+    </script>
+</body>
+</html>

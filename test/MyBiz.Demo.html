@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+  <meta http-equiv="Content" charset="utf-8" />
+		<title>演示   MyBiz</title>
+    <link href="css/reset.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyBiz.js"></script>
+
+    
+    <style type="text/css">
+    #TabTitle li
+    {
+        padding-left:40px;
+    }
+    #TabTitle input[type="text"]
+    {
+        width:150px;
+    }
+    </style>
+	</head>
+	<body>
+    <h1>演示 MyBiz</h1>
+
+    &apos;&lt;div&gt;sss&lt;/div&gt;&apos;
+    <ul id="TabTitle">
+        <li><hr /></li>
+        <li>1、检查是否符合电信天翼手机号码格式：<input id="input1" type="text" value="18916558899" />
+        <button onclick='javascript:alert(MyBiz.TeleCom.isPhoneValidTianYi($("#input1").val()));'>检查</button>
+        </li>
+        <li>2、检查是否符合电信小灵通号码格式：<input id="input2" type="text"  value="05515552658" />
+        <button onclick='javascript:alert(MyBiz.TeleCom.isPhoneValidXLT($("#input2").val()));'>检查</button>
+        </li>
+        <li>3、检查是否符合电信固话格式：<input id="input3" type="text"  value="05515552658" />
+        <button onclick='javascript:alert(MyBiz.TeleCom.isPhoneValidGH($("#input3").val()));'>检查</button>
+        </li>
+        <li>4、检查是否符合电信彩铃密码格式：<input id="input4" type="text"  value="123456" />
+        <button onclick='javascript:alert(MyBiz.TeleCom.isColorRingPswdValid($("#input4").val()));'>检查</button>
+        </li>
+        <li><hr /></li>
+        <li>4、检查是否符合移动用户号码格式：<input id="input5" type="text"  value="13855154455" />
+        <button onclick='javascript:alert(MyBiz.Mobile.isPhoneValid($("#input5").val()));'>检查</button>
+        </li>
+        <li><hr /></li>
+        <li>5、检查是否符合联通用户号码格式：<input id="input6" type="text"  value="13855154455" />
+        <button onclick='javascript:alert(MyBiz.Unicom.isPhoneValid($("#input6").val()));'>检查</button>
+        </li>
+    </ul>
+    <script type="text/javascript">
+     
+    </script>
+
+	</body>
+</html>

@@ -1,0 +1,40 @@
+@charset "utf-8";
+body{
+background:#000;
+}
+.bqkuang {
+     /*height:143px;*/
+     width:530px;
+	 padding:5px;
+	 position:absolute;
+	 background-color: #2d0442;
+	 border:1px solid #973da9;
+	 background:url(../images/bqkuangbg.png) repeat-x;
+}
+.bqkuang li{
+     /*height:145px;*/
+	 width:35px;
+	 float:left;
+}
+.bqkuang li a{
+     float:left;
+     height:30px;
+	 width:30px;
+	 display:block;
+}
+.bqkuang li a img
+{
+    margin: 3px;
+}
+.bqkuang li a:hover{
+     background:url(../images/bqhoverbg.png) no-repeat;
+}
+.bqjz {
+	position:absolute;
+	z-index:2;
+	width:21px;
+	height:11px;
+	background:url(../images/bqjzbg.png) no-repeat;
+	bottom:-11px;
+	left: 25px;
+}

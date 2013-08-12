@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+  <meta http-equiv="Content" charset="utf-8" />
+		<title>演示 MyUI.DockPanel</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyCore.TagBuilder.js"></script>
+    <script type="text/javascript" src="../MyCore.WindowSize.js"></script>
+    <script type="text/javascript" src="../MyUI.DockPanel.js"></script>
+	</head>
+	<body>
+    <h1>点击按钮将静态Div变为DockPanel后，可以点击-,+,X按钮操作</h1>
+	
+    <div id="testDiv" style="width:400px;height:300px;background-color:#92f8e5; border-style: dashed;">
+        <div  style="width:400px;height:100px; background-color:#45e569; text-align:center;">这是DockPanel
+         <a href="javascript:Hide();" title="点击折叠" style=" background-color:#1579a3;width:20px;height:20px; position:relative; position: absolute;text-align:center; margin-left:50px;">-</a>
+         <a href="javascript:Close();" title="点击关闭" style=" background-color:#e3b92a;width:20px;height:20px; position:relative; position: absolute;text-align:center; margin-left:80px;">X</a>
+         <a href="javascript:Show();" title="点击展开" style=" background-color:#a31581;width:20px;height:20px; position:relative; position: absolute;text-align:center; margin-left:110px;">+</a>
+    
+        </div>
+   </div>
+
+
+   <button onclick="javascript:CreatePanel();">点击将Div变为左侧停靠面板</button>
+   <button onclick="javascript:CreatePanel2();">点击将Div变为右下侧停靠面板</button>
+   <button onclick="javascript:OpenPanel();">点击重新打开面板</button>
+   <button onclick="javascript:ChangeSpeed();">修改展示速度</button>
+   <button onclick="javascript:ChangeTitle();">修改标题栏高度</button>
+
+
+   <div style="height:900px;border-style: dashed; text-align:center; vertical-align:middle; padding-top:300px;">我把浏览器撑开。。。</div>
+
+   
+    <script type="text/javascript">
+        var Panel;
+        function CreatePanel() {
+            Panel = MyUI.DockPanel.leftPanel({
+                ID: 'testDiv',
+                TitleWidth: '200px',
+                duration: 500,
+                FoldCallback: function (isFolding) {
+                    alert('当前折叠状态：' + isFolding);
+                }
+            });
+        };
+        function CreatePanel2() {
+            Panel = MyUI.DockPanel.rightBottomPanel({
+                ID: 'testDiv',
+                TitleHeight: '100px',
+                duration: 500,
+                FoldCallback: function (isFolding) {
+                    alert('当前折叠状态：'+isFolding);
+                }
+                        });
+        };
+        function Hide() {
+            if (Panel)
+                Panel.hide();
+        };
+        function Close() {
+            if (Panel)
+                Panel.close();
+        };
+        function Show() {
+            if (Panel)
+                Panel.show();
+        };
+        function OpenPanel() {
+            if (Panel)
+                Panel.open();
+        }
+        function ChangeSpeed() {
+            if (Panel) {
+                Panel.duration = Panel.duration == 200 ? 500 : 200;
+                alert('移动周期调整为：' + Panel.duration+'ms');
+            }
+        };
+        function ChangeTitle() {
+            if (Panel)
+                Panel.titleSpace = Panel.titleSpace == '100px' ? '40px' : '100px';
+            alert('标题栏高度调整为：' + Panel.titleSpace);
+        };
+    </script>
+
+	</body>
+</html>

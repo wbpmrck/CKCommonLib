@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示 MyUI.ImageMessage 功能</title>
+<link href="css/reset.css" rel="stylesheet" type="text/css" />
+<link href="css/biaoqing.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyCore.Log.js"></script>
+    <script type="text/javascript" src="../MyOOP.Utils.js"></script>
+    <script type="text/javascript" src="../MyOOP.Syntax.Module.js"></script>
+    <script type="text/javascript" src="../MyCore.WindowSize.js"></script>
+    <script type="text/javascript" src="../MyCore.Config.js"></script>
+    <script type="text/javascript" src="../MyCore.TagBuilder.js"></script>
+    <script type="text/javascript" src="../MyUI.ImageMessage.js"></script>
+    E:\【我的项目】\[10][模块-组件]\[20]Web相关\MyWebLib[2012年7月11日]\MyWebLib\Files\myLib\demo\css\biaoqing.css
+</head>
+<body>
+
+<h1>演示  MyUI.ImageMessage.js  自定义表情弹出框的功能</h1>
+<ul>
+    <li>步骤1：调用 config 方法配置全局参数：</li>
+    <li>步骤2：调用 addMessageItemGroup 方法添加表情组</li>
+    <li>步骤3：给要显示标签框的元素添加事件，调用showDialog方法</li>
+       
+       <div id="toBeShow" style="width:200px;height:300px; background-color:#00ff68;">我是撑开高度的</div><br />
+       <button id="btn1">点击弹出表情</button>
+       <input id="ip" type="text" style="width:400px;" />
+       <button id="trans" onclick="javascript:trans();">点击显示消息</button>
+       
+</ul>
+    
+    <script type="text/javascript">
+	String.prototype.replaceAll = function(s1,s2) { 
+	var text=this;
+	while(text.indexOf(s1)>-1)
+		text=text.replace(s1,s2);
+    return text; 
+}
+        function trans() {
+            var text = $('#ip').val();
+            var transedHtml = MyUI.ImageMessage.translateFrom(text);
+            $("#toBeShow").append(transedHtml);
+        };
+        //初始化表情
+        $(document).ready(function () {
+            MyUI.ImageMessage.config({
+                //弹出表情框关闭后的回调函数
+                choosedCallback: function (choosed) {
+                    $('#ip').val($('#ip').val() + choosed.code);
+                    MyUI.ImageMessage.closeDialog();
+                    //                    alert(choosed.name);
+                    //                    alert(choosed.code);
+                    //                    alert(choosed.url);
+                },
+                //弹出的选择框的大小（包括边框等，用于插件计算弹框的位置）
+                dialogSize: {
+                    width: 542,
+                    height: 132
+                },
+                //回调函数，传入：表情对象数组   框架将组对象、组内所有表情对象作为数组传入，用于定义如何生成每一组表情的Html（该函数在执行showDialog的时候，会检查每个组是否都已经生成好html,不会重复生成。主要用于产生展示表情的内容区域）
+                funcToGenerateGroupHtml: function (groupIndex, itemsArray) {
+                    var innerHtml = '';
+
+                    for (var i in itemsArray) {
+                        innerHtml = [innerHtml, '<li><a groupIndex="', groupIndex, '" itemID="', itemsArray[i].id, '" href="#" title="', itemsArray[i].name, '"><img src="', itemsArray[i].url, '"></a></li>'].join('');
+                        if (i == itemsArray.length - 1)
+                            innerHtml = innerHtml + '<div class="bqjz"></div>';
+                    }
+
+                    var ul = MyCore.TagBuilder.createTag({
+                        TagName: 'ul',
+                        InnerHtml: innerHtml,
+                        ID: 'emotion' + groupIndex,
+                        Name: 'emotion' + groupIndex,
+                        ClassName: 'bqkuang'
+                    });
+                    return ul.toString();
+                },
+                //回调函数，传入：distance,组内的HTML   当用户调用showDialog的时候，框架会取出默认展示的组的html,并计算当前offSet到屏幕四个方向的距离，连带offSet一起（这个区域外部用来决定在哪里放置该弹框，以及使用什么样的UI），作为参数传入该回调函数，并取该回调函数的返回结果作为最终的HTML,然后生成一个DOM插入到文档中，这个API主要用来给外部针对不同的弹框方向进行修饰元素的附加，比如小箭头)
+                beforeAppendDialog: function (distance, html) {
+                    return html; //这里简单的拼一个下箭头
+                },
+                //回调函数，在现实对话框之前，对wrapper位置进行调整
+                beforeShowDialog: function (wrapperID, posOffset, distance, dialogSize, wndSize) {
+                    $("#" + wrapperID).css({
+                        top: posOffset.top - 140 + 'px',
+                        left: posOffset.left + 'px'
+                    });
+                },
+                //回调函数：在对话框显示后进行。
+                afterShowDialog: function (wrapperID) {
+                    //绑定事件
+                    $(['#', wrapperID, ' a'].join('')).click(function () {
+                        var groupIndex = $(this).attr('groupIndex');
+                        var itemID = $(this).attr('itemID');
+                        MyUI.ImageMessage.chooseItem(groupIndex, itemID);
+                    });
+                },
+                urlRoot: 'images/emotions/'//所有图片的根目录，如果设置，则图片的地址将会根据该root+item.url来展示
+            });
+            MyUI.ImageMessage.addMessageItemGroup('默认组', [
+                { 'id': 1, name: '呵呵', 'code': '[呵呵/]', 'url': '1.gif' }, { 'id': 2, name: '嘻嘻', 'code': '[嘻嘻/]', 'url': '2.gif' },
+                { 'id': 3, name: '哈哈', 'code': '[哈哈/]', 'url': '3.gif' }, { 'id': 4, name: '可爱', 'code': '[可爱/]', 'url': '4.gif' },
+                { 'id': 5, name: '可怜', 'code': '[可怜/]', 'url': '5.gif' }, { 'id': 6, name: '挖鼻孔', 'code': '[挖鼻孔/]', 'url': '6.gif' },
+                { 'id': 7, name: '吃惊', 'code': '[吃惊/]', 'url': '7.gif' }, { 'id': 8, name: '害羞', 'code': '[害羞/]', 'url': '8.gif' },
+                { 'id': 9, name: '挤眼', 'code': '[挤眼/]', 'url': '9.gif' }, { 'id': 10, name: '闭嘴', 'code': '[闭嘴/]', 'url': '10.gif' },
+                { 'id': 11, name: '鄙视', 'code': '[鄙视/]', 'url': '11.gif' }, { 'id': 12, name: '爱你', 'code': '[爱你/]', 'url': '12.gif' },
+                { 'id': 13, name: '流泪', 'code': '[流泪/]', 'url': '13.gif' }, { 'id': 14, name: '偷笑', 'code': '[偷笑/]', 'url': '14.gif' },
+                { 'id': 15, name: '亲亲', 'code': '[亲亲/]', 'url': '15.gif' }, { 'id': 16, name: '生病', 'code': '[生病/]', 'url': '16.gif' },
+                { 'id': 17, name: '开心', 'code': '[开心/]', 'url': '17.gif' }, { 'id': 18, name: '懒得理你', 'code': '[懒得理你/]', 'url': '18.gif' },
+                { 'id': 19, name: '左哼哼', 'code': '[左哼哼/]', 'url': '19.gif' }, { 'id': 20, name: '右哼哼', 'code': '[右哼哼/]', 'url': '20.gif' },
+                { 'id': 21, name: '嘘', 'code': '[嘘/]', 'url': '21.gif' }, { 'id': 22, name: '衰', 'code': '[衰/]', 'url': '22.gif' },
+                { 'id': 23, name: '委屈', 'code': '[委屈/]', 'url': '23.gif' }, { 'id': 24, name: '吐', 'code': '[吐/]', 'url': '24.gif' },
+                { 'id': 25, name: '打哈欠', 'code': '[打哈欠/]', 'url': '25.gif' }, { 'id': 26, name: '抱抱', 'code': '[抱抱/]', 'url': '26.gif' },
+                { 'id': 27, name: '怒', 'code': '[怒/]', 'url': '27.gif' }, { 'id': 28, name: '疑问', 'code': '[疑问/]', 'url': '28.gif' },
+                { 'id': 29, name: '馋嘴', 'code': '[馋嘴/]', 'url': '29.gif' }, { 'id': 30, name: '拜拜', 'code': '[拜拜/]', 'url': '30.gif' },
+                { 'id': 31, name: '思考', 'code': '[思考/]', 'url': '31.gif' }, { 'id': 32, name: '汗', 'code': '[汗/]', 'url': '32.gif' },
+                { 'id': 33, name: '困', 'code': '[困/]', 'url': '33.gif' }, { 'id': 34, name: '睡觉', 'code': '[睡觉/]', 'url': '34.gif' },
+                { 'id': 35, name: '钱', 'code': '[钱/]', 'url': '35.gif' }, { 'id': 36, name: '失望', 'code': '[失望/]', 'url': '36.gif' },
+                { 'id': 37, name: '酷', 'code': '[酷/]', 'url': '37.gif' }, { 'id': 38, name: '花心', 'code': '[花心/]', 'url': '38.gif' },
+                { 'id': 39, name: '哼', 'code': '[哼/]', 'url': '39.gif' }, { 'id': 40, name: '鼓掌', 'code': '[鼓掌/]', 'url': '40.gif' },
+                { 'id': 41, name: '晕', 'code': '[晕/]', 'url': '41.gif' }, { 'id': 42, name: '悲伤', 'code': '[悲伤/]', 'url': '42.gif' },
+                { 'id': 43, name: '抓狂', 'code': '[抓狂/]', 'url': '43.gif' }, { 'id': 44, name: '黑线', 'code': '[黑线/]', 'url': '44.gif' },
+                { 'id': 45, name: '阴脸', 'code': '[阴脸/]', 'url': '45.gif' }, { 'id': 46, name: '怒骂', 'code': '[怒骂/]', 'url': '46.gif' },
+                { 'id': 47, name: '心', 'code': '[心/]', 'url': '47.gif' }, { 'id': 48, name: '伤心', 'code': '[伤心/]', 'url': '48.gif' },
+                { 'id': 49, name: '猪头', 'code': '[猪头/]', 'url': '49.gif' }, { 'id': 50, name: 'OK', 'code': '[OK/]', 'url': '50.gif' },
+                { 'id': 51, name: '耶', 'code': '[耶/]', 'url': '51.gif' }, { 'id': 52, name: 'good', 'code': '[good/]', 'url': '52.gif' },
+                { 'id': 53, name: '不要', 'code': '[不要/]', 'url': '53.gif' }, { 'id': 54, name: '赞', 'code': '[赞/]', 'url': '54.gif' },
+                { 'id': 55, name: '来', 'code': '[来/]', 'url': '55.gif' }, { 'id': 56, name: '弱', 'code': '[弱/]', 'url': '56.gif' },
+                { 'id': 57, name: '蜡烛', 'code': '[蜡烛/]', 'url': '57.gif' }, { 'id': 58, name: '钟', 'code': '[钟/]', 'url': '58.gif' },
+                { 'id': 59, name: '蛋糕', 'code': '[蛋糕/]', 'url': '59.gif' }, { 'id': 60, name: '话筒', 'code': '[话筒/]', 'url': '60.gif' }
+            ], /(\[[\u4e00-\u9fa5]*\w*\/\])*/g,
+            function (finded,keyWord,item) {
+                return finded.replaceAll(item.code,["<img src='", item.url, "' />"].join(''));
+            },
+            function (item, keyword) {
+                //return item.code == keyword;
+                return item.code == keyword||keyword.indexOf(item.code)>-1;
+            });
+
+            $("#btn1").click(function () {
+                var offset = $(this).offset();
+                MyUI.ImageMessage.toggleShowDialog(offset);
+            });
+        });
+
+
+
+    </script>
+</body>
+</html>

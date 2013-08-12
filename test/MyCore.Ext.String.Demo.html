@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示 MyCore.Ext.String功能</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyCore.Ext.String.js"></script>
+</head>
+<body>
+<h1>演示对string进行扩展后的功能</h1>
+<ul>
+    <li>1、trim 函数
+        <div>
+        原字符：<input type="text" id="testInput1"/>    <input type="button" value="点击Trim" onclick="javascript:testTrim();" />
+        </div>
+        <hr />
+    </li>
+    <li>2、paddLeft 函数
+        <div>
+        原字符：<input type="text" id="testInput2" maxlength="4"/>    <input type="button" value="点击左边补0" onclick="javascript:testPaddleft();" />
+        </div>
+        <hr />
+    </li>
+    <li>3、fileNameWithoutExt 函数
+        <div>
+        原字符：<input type="text" id="testInput3" style="width:400px;" value="http://test/tesb/1234567.wav"/>    <input type="button" value="点击获取除了扩展名以外的文件名部分" onclick="javascript:testFile1();" />
+        </div>
+        <hr />
+    </li>
+    <li>4、extName 函数
+        <div>
+        原字符：<input type="text" id="testInput4" style="width:400px;" value="http://test/tesb/1234567.wav"/>    <input type="button" value="点击获取扩展名" onclick="javascript:testFile2();" />
+        </div>
+        <hr />
+    </li>
+    <li>5、replaceExt 函数
+        <div>
+        原字符：<input type="text" id="testInput5" style="width:400px;" value="http://test/tesb/1234567.wav"/>    <input type="button" value="点击替换扩展名" onclick="javascript:testFile3();" />
+        </div>
+        <hr />
+    </li>
+</ul>
+    
+    <script type="text/javascript">
+        function testTrim() {
+            var originText = $("#testInput1").val();
+            var result = originText.trim();
+            alert("trim前的长度：" + originText.length);
+            alert("trim后的长度：" + result.length);
+        };
+        function testPaddleft() {
+            var originText = $("#testInput2").val();
+            var result = originText.paddLeft('0', 6);
+            $("#testInput2").val(result);
+        };
+        function testFile1() {
+            var originText = $("#testInput3").val();
+            var result = originText.fileNameWithoutExt();
+            $("#testInput3").val(result);
+        };
+        function testFile2() {
+            var originText = $("#testInput4").val();
+            var result = originText.extName();
+            $("#testInput4").val(result);
+        };
+        function testFile3() {
+            var originText = $("#testInput5").val();
+            var result = originText.replaceExt('mp3');
+            $("#testInput5").val(result);
+        };
+        
+    </script>
+</body>
+</html>

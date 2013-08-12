@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+  <meta http-equiv="Content" charset="utf-8" />
+		<title>模块化编程Demo</title>
+    <script type="text/javascript" src="JS/oop.js"></script>
+	</head>
+	<body>
+    <h1>请使用chrome浏览器查看console控制台的输出</h1>
+<script type="text/javascript">
+    MyCore.Log.Config({ enable: true }); //开启日志功能
+
+//    //step1:定义模块
+//    define('Hello.World', [], function (context) {
+//        alert('hello world 模块已经创建!');
+//    });
+
+
+    //step2:内部变量、输出参数
+    define('TestModule', [], function (context) {
+        var _privateVal = '我是私有字符串，外面访问不到！';
+
+        context.exports = {
+            publicVal: '我是公有字符串，使用 模块名.属性名 访问',
+            publicMethod: function () {
+                console.log('我是公开方法，使用 模块名.方法名 访问');
+            }
+        };
+    });
+//    //step3:定义依赖
+//    define('TestModule2', ['TestModule'], function (context) {
+//        var testModule = context.imports.libs[0];   //使用下标方式引入
+//        //        var testModule = context.imports['TestModule'];   //也可以使用模块名直接引入
+
+//        alert(testModule.publicVal);//访问其他模块的属性
+    //    });
+    define.Config({ enableDefineTag: true });
+    //step4:覆写模块
+    define('TestModule', [], function (context) {
+
+        context.exports = {
+            publicMethod: function () {
+                console.log('我是公开方法new，使用 模块名.方法名 访问');
+            }
+        };
+    }, {tag:'尝试覆写方法 by kaicui 2012-10-7 23:23:35 ',isReWrite:true});
+
+    
+   
+
+   
+</script>
+
+	</body>
+</html>

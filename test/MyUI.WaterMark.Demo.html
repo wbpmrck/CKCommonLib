@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示MyUI.WaterMark功能</title>
+  <link href="css/mywatermark.css" rel="stylesheet" />
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyCore.Event.js"></script>
+    <script type="text/javascript" src="../MyUI.WaterMark.js"></script>
+</head>
+<body>
+  <h1>演示MyUI.WaterMark功能</h1>
+  <form id="form1">
+  <fieldset>
+    <legend><strong>指定元素应用watermark</strong></legend>
+    文本框：
+    <input id="text1" type="text" />
+    <input type="button" id="button1" value="取消watermark" />
+  </fieldset>
+  </form>
+  <script>
+      var m1 = MyUI.WaterMark.watermark(document.getElementById("text1"), "提示信息");
+      MyCore.Event.addEvent(document.getElementById("button1"), "click", function () {
+      m1.unload();
+    });
+  </script>
+  
+  <br /><hr /> <br />
+  
+  <form id="form2">
+  <fieldset>
+    <legend><strong>对不支持html5 placeholder的表单元素应用watermark</strong></legend>
+    <ul>
+      <li>
+        文本框：
+        <input type="text" placeholder="文本框文本框" />
+      </li>
+      <li>
+        密码框：
+        <input type="password" placeholder="密码框密码框" />
+      </li>
+      <li>
+        多行文本：
+        <textarea placeholder="多行文本多行文本"></textarea>
+      </li>
+    </ul>
+  </fieldset>
+  </form>
+  <script>
+      MyUI.WaterMark.placeHolderForm(document.getElementById("form2"));
+  </script>
+</body>
+</html>

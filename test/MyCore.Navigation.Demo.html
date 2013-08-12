@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示MyCore.Navigation.js功能</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyCore.Url.js"></script>
+    <script type="text/javascript" src="../MyCore.Navigation.js"></script>
+    
+</head>
+<body>
+<span>这个元素不可少(提供获取服务器根目录的数据)，但是应该隐藏:----><span id="rootUrl" style="color:Gray; border-color:#9F7F80; border-style:dotted;">http://127.0.0.1/test</span></span>
+<h1>演示MyCore.Navigation.js的功能</h1>
+<ul>
+    <li>1、RedirectTo 函数 【跳转到某个地址】和newWindow函数【打开新窗口】
+        <div>
+        <input type="button" value="点击 进行重定向" onclick="javascript:test1();" />
+        <input type="button" value="点击 进打开新窗口" onclick="MyCore.Navigation.newWindow('http://www.baidu.com');" />
+        </div>
+        <hr />
+    </li>
+    <li>2、Refresh、Back、Forward 函数 【浏览器刷新，回退，前进】
+        <div>
+        <input type="button" value="点击 刷新" onclick="javascript:MyCore.Navigation.refresh();" />
+        <input type="button" value="点击 回退" onclick="javascript:MyCore.Navigation.back();" />
+        <input type="button" value="点击 前进" onclick="javascript:MyCore.Navigation.forward();" />
+        </div>
+        <hr />
+    </li>
+    <li>3、GetCurUrl 函数（获取浏览器地址）
+        <div>
+        结果：<input type="text" id="testInput3" style="width:900px;"/>    <input type="button" value="点击 获取浏览器地址" onclick="javascript:test3();" />
+        </div>
+        <hr />
+    </li>
+    <li>4、RedirectToAction 函数 【跳转到指定Action,支持传入参数对象,并对参数进行编码】
+        <div>
+        <input type="button" value="点击 跳转到指定Action" onclick="javascript:test4();" />
+        </div>
+        <hr />
+    </li>
+</ul>
+    
+    <script type="text/javascript">
+        function test1() {
+            MyCore.Navigation.redirectTo('http://www.baidu.com');
+        }
+        function test3() {
+            $("#testInput3").val(decodeURI(MyCore.Navigation.getCurUrl()));
+        }
+        function test4() {
+            MyCore.Navigation.redirectToAction("index", "home", {p1:123,p2:456,p3:'789'});
+        }
+        
+    </script>
+</body>
+</html>

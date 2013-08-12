@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示 MyCore.Observer  功能</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyCore.Observer.js"></script>
+    
+</head>
+<body>
+<h1>演示  MyCore.Observer  的功能</h1>
+<h2>create函数创建事件监听器之后：</h2>
+<ul>
+    <li>1、on方法添加监听
+    <input id='eventName' value="eventName" />
+    <button onclick="testOn();">点击添加监听函数1(多次点击添加多次)</button>
+    <button onclick="testOn2();">点击添加监听函数2(多次点击添加多次)</button>
+    <button onclick="testOnAll();">点击添加监听所有消息函数(多次点击添加多次)</button>
+    </li>
+    <li>2、emit方法触发事件
+    <input id='data' value="data" />
+    <button onclick="testEmit();">点击触发事件</button>
+    </li>
+    <li>3、off方法取消监听
+    <button onclick="testOff();">点击取消该事件的所有监听</button>
+    <button onclick="testOff2();">点击取消该事件的callback1的监听</button>
+    <button onclick="testOffAll();">点击取消*事件的的监听</button>
+    </li>
+</ul>
+    
+    <script type="text/javascript">
+        var observer = MyCore.Observer.createObserver();
+
+        function callback1(data) {
+            alert(['callback1>>事件触发，数据个数：', arguments.length].join(''));
+        }
+        function callback2(data,data2,data3,data4,data5,data6,data7) {
+            alert(['callback2>>事件触发，数据个数：', arguments.length].join(''));
+        }
+        function callbackAll(eventName,data) {
+            alert(['callbackALL>>事件:', eventName, '触发数据个数：', arguments.length].join(''));
+        }
+        function testOn() {
+            var eventName = $("#eventName").val();
+            observer.on(eventName, callback1);
+        }
+        function testOn2() {
+            var eventName = $("#eventName").val();
+            observer.on(eventName, callback2);
+        }
+        function testOnAll() {
+            observer.on('*', callbackAll);
+        }
+        function testEmit() {
+            var eventName = $("#eventName").val();
+            var data = $("#data").val();
+            observer.emit(eventName, data, '测试参数2', '测试参数3',
+             '测试参数4', '测试参数5', '测试参数6', '测试参数7');
+        }
+
+        function testOff() {
+            var eventName = $("#eventName").val();
+            observer.off(eventName);
+        }
+        function testOff2() {
+            var eventName = $("#eventName").val();
+            observer.off(eventName,callback1);
+        }
+
+        function testOffAll() {
+            observer.off("*");
+        }
+
+    </script>
+</body>
+</html>

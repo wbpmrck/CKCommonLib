@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+  <meta http-equiv="Content" charset="utf-8" />
+		<title>演示MyUI.TabControl</title>
+    <link href="css/reset.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyUI.TabControl.js"></script>
+
+    
+    <style type="text/css">
+    #TabTitle div,#TabBody div
+    {
+        border-style:solid;
+        border-width:1px;
+    }
+    #TabTitle li
+    {
+        cursor:pointer;
+    }
+    #TabTitle li,#TabBody li
+    {
+        float:left;
+         margin-left: 1px;
+    }
+    #TabBody div
+    {
+        min-height:300px;
+    }
+    
+    </style>
+	</head>
+	<body>
+    <h1>演示 MyUI.TabControl 控制标签页的功能</h1>
+	
+    
+    <ul id="TabTitle">
+        <li id="head1"><div>标签页1的标题</div></li>
+        <li id="head2"><div>标签页2的标题</div></li>
+        <li id="head3"><div>标签页3的标题</div></li>
+    </ul>
+    <div class="clear"></div>
+    <br />
+    <ul id="TabBody">
+        <li id="body1"><div>标签页1的内容，标签页1的内容，标签页1的内容，</div></li>
+        <li id="body2"><div>标签页2的内容，标签页2的内容，标签页2的内容，</div></li>
+        <li id="body3"><div>标签页3的内容，标签页3的内容，标签页3的内容，</div></li>
+    </ul>
+    <button onclick="javascript:changeShowMethod();">修改标签显示方式</button>
+    <script type="text/javascript">
+        //建立标签组
+        var group=MyUI.TabControl.newTabGroup({
+            groupID: 'test1',//只是起个名字
+            //指定如何展示标签
+            funcEnable: function (head, body) {
+                head.css('backgroundColor', 'red');
+                body.show();
+            },
+            //指定如何隐藏标签
+            funcDisable: function (head, body) {
+                head.css('backgroundColor', 'white');
+                body.hide();
+            }
+        });
+        
+        group.AddTab('head1', 'body1').AddTab('head2', 'body2').AddTab('head3', 'body3').ActiveTab(0);//添加完标签后，直接激活某个位置的标签
+        //        group.AddTab('head1', 'body1').AddTab('head2', 'body2').AddTab('head3', 'body3');//直接添加标签，默认选择最后添加的一个
+
+
+        function changeShowMethod() {
+            group.funcEnable = function (head, body) {
+                head.css('backgroundColor', 'red');
+                body.fadeIn(400)
+            };
+        };
+        
+    </script>
+
+	</body>
+</html>

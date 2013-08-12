@@ -1,0 +1,18 @@
+﻿/* 水印提示的样式*/
+.w-label {
+  position: absolute;
+  padding: 0 0 0 6px;
+  margin: 0;
+  font-size: .8em;
+  color: #999;
+  opacity: 1;
+}
+/* 隐藏标记 */
+.w-hide {
+  visibility: hidden;
+  opacity: 0;
+}
+/* 表单元素获得焦点时，标记的颜色 */
+.w-active {
+  color: White;
+}

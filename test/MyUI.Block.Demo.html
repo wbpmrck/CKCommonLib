@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示 MyUI.Block 功能</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../../ui_blockUI/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="../../fn_sitecommon/DiyblockUIWrap/DiyblockUIWrap.js"></script>
+    <script type="text/javascript" src="../MyUI.Block.js"></script>
+</head>
+<body>
+
+<h1>演示 MyUI.Block 的功能</h1>
+<ul>
+    <li>1、btnTipBlock 函数(待整理，需要整理blockUI和blockUIWrapper)【 此功能用于遮罩一个元素，并持续若干秒后自动解锁。期间每秒钟都会向外部发送通知，用于外部更新UI。回调函数参数：seconds[剩余秒数]】
+        <div id="container1" style="width:400px;height:100px;" >
+            <div id="content1" style="width:400px;height:100px; line-height:100px; font-size: 30px; display:block; background-color:#6db5e1; text-align:center;cursor:pointer; -webkit-border-radius:9px;" >
+            点击这里!
+            </div>
+        </div>
+        <hr />
+    </li>
+    <li>2、btnTipBlock 函数(待整理，需要整理blockUI和blockUIWrapper)【此功能用于遮罩一个容器元素，并且利用另外一个元素来展示提示信息。通常用户在登录或者后台业务处理时，改变一个提示文本，然后等功能处理完成后，取消block】
+       <div id="Div1" style="width:400px;height:150px; padding:40px; background-color:#6ae182;" >
+        <div id="div2" style="width:200px;height:100px; line-height:100px; font-size: 30px; display:block; background-color:#6db5e1; text-align:center;cursor:pointer; -webkit-border-radius:9px;" >点击这里!</div>
+        
+        </div>
+        <button  onclick="javascript:unblock();">点击此处取消效果</button>
+        <hr />
+    </li>
+
+</ul>
+    
+    <script type="text/javascript">
+        $("#content1").click(function () {
+            MyUI.Block.blockForSeconds('container1', 3, function (timeLeft) {
+                $("#content1").text('点击这里(剩余' + timeLeft + '秒)');
+                if (timeLeft == 0) {
+                    $("#content1").text('点击这里重新获取');
+                }
+            });
+        });
+        var controller;
+        $("#div2").click(function () {
+            controller = MyUI.Block.btnTipBlock({ ContainerID: "Div1", TipBtnID: "div2", Msg: "这是提示信息" });
+        });
+        function unblock() {
+            if (controller) {
+                controller.UnBlock();
+            }
+        };
+
+    </script>
+</body>
+</html>

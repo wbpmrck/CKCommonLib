@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="width=480" name="viewport" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link href="css/reset.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyCore.Event.js"></script>
+    <script type="text/javascript" src="../MyUI.Slider.js"></script>
+</head>
+
+<body>
+
+<div class="width480">
+<div class="mainBg">
+    <div class="topDiv">
+      <div class="topTitle">个性化彩铃</div>
+      <div class="dlDiv"><div class="dlBtn_2"><a href=""></a></div>
+      </div>
+    </div>
+    <div class="bgBlue">
+    <div class="topBan"><img src="images/top_ban.png" width="480" height="220" /></div>
+    <div class="topText">彩铃也能DIY，写出你想说的话，我们来为您播报！</div>
+    <div class="kuangDiv">
+      <textarea name="" cols="" rows="" class="navInput">
+      请在手机上打开本页^_^：点图片自动滚动到中间！或者手指滑动进行滚动！
+      </textarea>
+    </div>
+    <div class="zbWrap" style="overflow:hidden;">
+       
+       <!--<div class="jsDiv" style="width:3440px; margin-left:-100px;">-->
+       <div class="jsDiv" style="width:6640px; margin-left:-100px;">
+      <div class="jsBtn slideItems">
+      <div class="jsHot"></div>
+        <div class="js"><img src="images/楠楠.gif" width="100" height="100" /></div>
+      </div>
+      <div class="jsBtn slideItems">
+      <div class="jsHot"></div>
+        <div class="js"><img src="images/小立.gif" width="100" height="100" /></div>
+      </div>
+      <div class="jsBtnCur slideItems">
+      <div class="jsHot"></div>
+        <div class="js"><img id="test1" src="images/TOM.gif" width="100" height="100" /></div>
+      </div>
+      <div class="jsBtn slideItems">
+      <div class="jsHot"></div>
+        <div class="js"><img src="images/小峰.gif" width="100" height="100" /></div>
+      </div>
+      <div class="jsBtnCur slideItems">
+      <div class="jsHot"></div>
+        <div class="js"><img src="images/小妍.gif" width="100" height="100" /></div>
+      </div>
+      <div class="jsBtn slideItems">
+      <div class="jsHot"></div>
+        <div class="js"><img src="images/01.gif" width="100" height="100" /></div>
+      </div>
+      <div class="jsBtnCur slideItems">
+      <div class="jsHot"></div>
+        <div class="js"><img src="images/小榕.gif" width="100" height="100" /></div>
+      </div>
+      <div class="jsBtn slideItems">
+      <div class="jsHot"></div>
+        <div class="js"><img src="images/小玲.gif" width="100" height="100" /></div>
+      </div>
+      <div class="jsBtnCur slideItems">
+      <div class="jsHot"></div>
+        <div class="js"><img src="images/00.gif" width="100" height="100" /></div>
+      </div>
+      <div class="jsBtn slideItems">
+      <div class="jsHot"></div>
+        <div class="js"><img src="images/小新.gif" width="100" height="100" /></div>
+      </div>
+    </div>
+    </div>
+    <div class="gdjc"><img src="images/gdjc.png" width="211" height="58" /></div>
+    <div id="testRegion">
+    <a  href="javascript:void(0);" onclick="javascript:RollLeft(1);">测试左滚动</a><br /><br />
+    <a  href="javascript:void(0);"onclick="javascript:RollRight(1);">测试右滚动</a><br /><br />
+    <a href="javascript:void(0);" onclick="javascript:RollLeft(2);">测试左滚动2</a><br /><br />
+    <a href="javascript:void(0);" onclick="javascript:RollRight(2);">测试右滚动2</a><br /><br />
+    </div>
+    <div class="btmNav">
+      <div class="btnBjb"><a href="#">彩铃编辑部</a></div>
+      <div class="btnTbw"><a href="#">彩铃淘宝屋</a></div>
+      <div class="btnTth"><a href="#">彩铃天天换</a></div>
+      <div class="btnKhd"><a href="#">客户端</a></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+    function RollLeft(n) {
+        slider.RollLeft(n, rollCallBack);
+    }
+    function RollRight(n) {
+        slider.RollRight(n, rollCallBack);
+    }
+    var slider = MyUI.Slider.setHorizontalSliderRolling({
+
+        sliderInner: ".jsDiv",  //包裹要滚动区域的div,该div必须被包含在一个parentDiv中，那个parentDiv设置overflow:hidden;
+
+        sliderItem: ".slideItems"
+    });
+
+    $(".zbWrap").swipe(3, function (evt) {
+
+        if (evt.Direction == "left") {
+
+            slider.RollLeft(2, rollCallBack);
+
+        }
+
+        else {
+
+            slider.RollRight(2, rollCallBack);
+
+        }
+
+    });
+
+    $(".slideItems").touchend(function () {
+
+        var dis = slider.GetDistanceToViewportHead(this);
+
+        slider.RollLeft(dis - 2, rollCallBack);
+
+    });
+
+    //
+    //下面只是为了演示比较复杂的效果。选中或者滑动主播后，高亮显示在中间的主播
+    //
+
+    var roolChain = slider.GetLogicAllItemChain();
+    var viewportMiddleIndex = slider.GetViewPortHeadIndex() + 2; //中间的元素index
+    function _chooseSpeakerSetUI(ele) {
+        ///<summary>
+        ///点击主播的时候，负责处理UI：高亮当前主播，其他主播非高亮
+        ///</summary>
+        $(".jsBtnCur").removeClass("jsBtnCur").addClass("jsBtn");
+        ele.addClass("jsBtnCur");
+    };
+    function rollCallBack() {
+        _chooseSpeakerSetUI(roolChain.NodeList[viewportMiddleIndex].JQDomEle);
+    };
+
+
+</script>
+
+</body>
+</html>

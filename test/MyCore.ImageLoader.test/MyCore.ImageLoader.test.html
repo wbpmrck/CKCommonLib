@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+  <meta http-equiv="Content" charset="utf-8" />
+		<title>演示   ImageLoader</title>
+    <!-- <link href="css/reset.css" rel="stylesheet" type="text/css" /> -->
+    <script type="text/javascript" src="../../MyCore.ImageLoader.js"></script>
+    <script type="text/javascript" src="../JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../QUnit/qunit.js"></script>
+        <link type="text/css" rel="stylesheet" href="../QUnit/qunit.css" />
+       <!-- // <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script> -->
+	</head>
+	<body>
+
+        <h1>演示 ImageLoader</h1>
+        <a id="changeImg" href="javascript:void(0);">[将网速限速后效果更明显]点击切换图片</a><br>
+        <img id="avatar" src="" alt="">
+        <h1 id="qunit-header">QUnit::ImageLoader 单元测试 </h1>
+        <h2 id="qunit-banner"></h2>
+        <ol id="qunit-tests"></ol>
+    
+        <script type="text/javascript">
+            var imgUrls=[
+                        {url:'http://img4.ph.126.net/C08r8A3rWW50ESJrPxQ8MQ==/6597841623819250804.jpg',size:{}},
+                        {url:'http://img7.ph.126.net/HU9duUJE0O13EzwAt142xA==/6598284727005071637.jpg',size:{}},
+                        {url:'http://img0.ph.126.net/AReeU2N0Giml7wTJCLcqnQ==/6598297921144607270.jpg',size:{}},
+                        {url:'http://img0.ph.126.net/aOA3eHBFQx4KOzpo7ciB6Q==/6597559049330911670.jpg',size:{}}
+                    ],
+                    curIdx=0;
+
+
+            $("#changeImg").click(function(){
+                var curImg = imgUrls[(curIdx++)%imgUrls.length];
+                //修改img的大小
+                //切换当前img到另外一个url
+                $("#avatar").css('width',curImg.size.width).css('height',curImg.size.height).attr('src',curImg.url);
+
+            });
+
+            asyncTest('异步加载存在的图片',function(){
+                var readyCalled=false,loadCalled=false;
+                MyCore.ImageLoader.loadImage('http://file.ihou.com/img/Avatar/2013/1/24/9/21c596656ef44b64944e73fe28bfd637_120.jpg',
+                        function(img){
+//                            alert('ready!');
+                            ok(loadCalled == false,'load 在ready之前不能被call');
+                            readyCalled = true;
+                            ok(img.width >0,'img.width='+img.width);
+                            ok(img.height >0,'img.height='+img.height);
+                            ok(true,'ready called!');
+                        },function(img){
+                            ok(readyCalled,'ready 必须在load之前 call!');
+                            loadCalled=true;
+                            ok(loadCalled,'loaded called!');
+                            start();//继续测试流程
+//                            alert('loaded!');
+                        },function(img){
+                            ok(false,'error 在此用例中不改被call!');
+                            start();
+//                            alert('error!');
+                        });
+            });
+            asyncTest('异步加载不存在的图片',function(){
+                var readyCalled=false,loadCalled=false;
+                MyCore.ImageLoader.loadImage('http://file.i2hou.com/img/Avatar/2013/1/24/9/21c596656ef44b64944e73fe28bfd637_120.jpg',
+                        function(img){
+                            ok(false,'ready 在加载不存在的图片的时候不该被调用!');
+                            start();//继续测试流程
+                        },function(img){
+                            ok(false,'load 在加载不存在的图片的时候不该被调用!');
+                            start();//继续测试流程
+                        },function(img){
+                            ok(true,'error call!');
+                            start();
+                        });
+            });
+
+            asyncTest('异步加载存在的图片，但不指定onready',function(){
+                var readyCalled=false,loadCalled=false;
+                MyCore.ImageLoader.loadImage('http://file.ihou.com/img/Avatar/2013/1/24/9/21c596656ef44b64944e73fe28bfd637_120.jpg',
+                       null,function(img){
+                            loadCalled=true;
+                            ok(loadCalled,'loaded called!');
+                            start();//继续测试流程
+//                            alert('loaded!');
+                        },function(img){
+                            ok(false,'error 在此用例中不改被call!');
+                            start();
+//                            alert('error!');
+                        });
+            });
+            var tokenA={some:'token'};
+            var tokenB={other:'token'};
+            test('异步加载存在的图片，并指定token',function(){
+                stop();
+                stop();
+                MyCore.ImageLoader.loadImage('http://file.ihou.com/img/Avatar/2013/1/24/9/21c596656ef44b64944e73fe28bfd637_120.jpg',
+                       null,function(img){
+                            ok(true,'loaded called!');
+                            ok(img._token==tokenA,'tokenA 必须被回传!');
+                            start();//继续测试流程
+                        },function(img){
+                            ok(false,'error 在此用例中不改被call!');
+                            start();
+                        },tokenA);
+                MyCore.ImageLoader.loadImage('http://file.ihou.com/img/Avatar/2013/1/24/9/21c596656ef44b64944e73fe28bfd637_120.jpg',
+                       null,function(img){
+                            ok(true,'loaded called!');
+                            ok(img._token==tokenB,'tokenB 必须被回传!');
+                            start();//继续测试流程
+                        },function(img){
+                            ok(false,'error 在此用例中不改被call!');
+                            start();
+                        },tokenB);
+            });
+
+            test('异步加载几张大图',function(){
+                for(var i=0,j=imgUrls.length;i<j;i++){
+                    stop();
+                    MyCore.ImageLoader.loadImage(imgUrls[i].url,
+                            null,function(img){
+                                ok(true,'loaded called!');
+                                ok(img._token>=0,'img._token='+img._token);
+                                imgUrls[img._token].size={width:img.width,height:img.height};
+                                start();//继续测试流程
+                            },function(img){
+                                ok(false,'error 在此用例中不改被call!');
+                                start();
+                            },i);
+                }
+            });
+        </script>
+
+	</body>
+</html>

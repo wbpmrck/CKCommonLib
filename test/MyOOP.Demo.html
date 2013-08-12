@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+  <meta http-equiv="Content" charset="utf-8" />
+		<title>MyOOP测试</title>
+    <script type="text/javascript" src="../MyOOP.Utils.js"></script>
+    <script type="text/javascript" src="../MyOOP.Syntax.Module.js"></script>
+    <script type="text/javascript" src="../MyCore.Log.js"></script>
+	</head>
+	<body>
+    <h1>请使用chrome浏览器查看console控制台的输出</h1>
+<script type="text/javascript">
+    MyCore.Log.Config({ enable: true }); //开启日志功能
+
+
+    
+   
+
+    var module = MyOOP.Utils.getNameSpace(window, 'aa.bb.cc');
+    var aa2 = {
+        bb: {
+            cc: '1',
+            dd: '2'
+        }
+    };
+
+    
+    var module2 = MyOOP.Utils.getNameSpace(window, 'aa2.bb.cc');
+
+    var module3 = require("MyOOP.Utils"); //演示require
+    //-------------------------------------------------------------------------------------------
+    //下面演示 遵循CommonJS规范的自定义开发框架。使用了全局空间的define和require关键字。
+
+    //定义一个组件：MyOOP.Utils.Test。依赖于'MyOOP.Utils', 'MyOOP.Method'2个外部组件，对外公开一个属性a,方法ff
+    define('MyOOP.Utils.Test', ['MyOOP.Utils', 'MyOOP.Method'], function (context) {
+        var a = context.imports['MyOOP.Utils']; //a就是该js库模块
+        var b = context.imports.libs[1]; //支持索引下标访问
+        context.exports.a = 1; //这是模块对外公开的属性
+        context.exports.ff = function () {
+            alert('这是第一次定义的模块内的方法');
+        };
+        var b = 1; //这是私有属性
+    });    //演示定义模块
+
+    //演示追踪defineTag
+    define.Config({ enableDefineTag: true });
+    //扩展组件：MyOOP.Utils.Test。试图重写属性a和方法ff，新增加了一个属性b
+    define('MyOOP.Utils.Test', ['MyOOP.Utils', 'MyOOP.Method'], function (context) {
+        var a = context.imports['MyOOP.Utils']; //a就是该js库模块
+        var b = context.imports.libs[1]; //支持索引下标访问
+        context.exports.a = 2; //当前无法覆盖a属性
+        context.exports.b = 2; //新属性是可以的
+        context.exports.ff = function () {
+            alert('这是第2次定义的模块内的方法'); //当前无法覆盖ff方法
+        };
+        var b = 1; //这是私有属性
+    });    //演示再次定义模块，由于没有给出覆盖标记，所以同名属性和方法无法覆盖
+    
+    
+
+        //扩展组件，并且希望在扩展过程中访问原来的API,只需使用context.self
+    define('MyOOP.Utils.Test', ['MyOOP.Utils.Test','MyOOP.Util21s.T2est','MyOOP.Utissls.Tesst'], function (context) {
+        var base = context.imports.libs[0]; //把自身作为lib引入也可以
+        var self = context.self; //新增功能，可以访问自身属性
+        alert('self.ff');
+        self.ff();
+        alert('base.ff');
+        base.ff();
+		var ffbase = function(){self.ff()};
+        context.exports.ff = function () {
+            self.pp = new Date().toGMTString();
+            alert('这是第4次定义的模块内的方法，可以访问自己定义的属性：self.pp=' + self.pp); //会覆盖该方法，由于开启的追踪，可以跟踪该方法什么原因修改的
+        };
+        context.exports.ff2 = function () {
+            base.pp = new Date().toGMTString();
+            alert('这是第4次定义的模块内的方法，可以访问自己定义的属性：base.pp=' + base.pp); //会覆盖该方法，由于开启的追踪，可以跟踪该方法什么原因修改的
+        };
+        context.exports.pp = '2345'; //属性也会被跟踪
+        window.sds = '2'; //可以定义全局变量
+
+    }, { isReWrite: true, tag: '某年某月，为xx原因修改模块' });           //演示定义模块，并支持重写方法、属性
+
+    var lastModule = MyOOP.Utils.Test;
+    console.log('tag is:' + lastModule._myDefineTag);
+    lastModule.ff();
+    lastModule.ff2();
+
+   
+</script>
+
+	</body>
+</html>

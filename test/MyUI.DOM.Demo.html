@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示 MyUI.DOM功能</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyUI.DOM.js"></script>
+    
+</head>
+<body>
+<h1>演示MyCore.DOM的功能</h1>
+<ul>
+    <li>1、moveEnd 函数 【将光标移到输入框末尾】
+        <div>
+        <textarea id="text1"  rows="5" style="width:800px;height:200px;">这是一段文本，这是一段文本，这是一段文本这是一段文本，这是一段文本</textarea>
+        
+        <input type="button" value="点击 将光标移到输入框末尾" onclick="javascript:test1();" /></div>
+        <hr />
+    </li>
+</ul>
+    
+    <script type="text/javascript">
+        function test1() {
+            MyUI.DOM.moveToEnd('text1');
+        }
+        
+    </script>
+</body>
+</html>

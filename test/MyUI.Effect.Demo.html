@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示MyUI.Effect功能</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyUI.Effect.js"></script>
+</head>
+<body>
+
+<h1>演示MyUI.Effect的功能</h1>
+<ul>
+    <li>1、bgFlick 函数【改变元素的背景色，持续一段时间还原】
+        <div id="divBgFlick" style="width:200px;height:200px; background-color:#a2b; text-align:center; vertical-align:middle; cursor:pointer;" >点击这里!</div>
+        <hr />
+    </li>
+    <li>2、scrollToTop 函数【滚动到页面最顶部】
+    <div style="width:200px;height:950px;background-color:gray;"></div>
+    <a href="javascript:MyUI.Effect.scrollToTop();">点击这里滚动到页面最顶部</a>
+        <hr />
+    </li>
+    <li>3、scrollUp 函数【向上滚动】
+    <br /><a href="javascript:MyUI.Effect.scrollUp(200);">点击这里向上滚动200像素</a>
+        <hr />
+    </li>
+    <li>4、scrollDown 函数【向下滚动】
+    <br /><a href="javascript:MyUI.Effect.scrollDown(200);">点击这里向下滚动200像素</a>
+    <div style="width:200px;height:640px;background-color:gray;"></div>
+        <hr />
+    </li>
+    <li>5、scrollUpTo 函数【直接定位y轴】
+    <br /><a href="javascript:MyUI.Effect.scrollUpTo(200);">点击这里将y坐标定位到200</a>
+        <hr />
+    </li>
+    <li>6、changeForSeconds 函数【在指定时间内修改元素的指定属性，时间到期后还原（也可以主动调api取消效果）】
+    <br />  
+        <a href="javascript:setChange();" id="content1" style="width:400px;height:100px; line-height:100px; font-size: 30px; display:block; background-color:#6db5e1; text-align:center;cursor:pointer; -webkit-border-radius:9px;" >
+        点击这里!
+        </a>
+        <a href="javascript:resetChange();"  style="width:100px;height:30px; line-height:30px; font-size: 14px; display:block; background-color:#0cb165; text-align:center;cursor:pointer; -webkit-border-radius:3px;">点击立刻停止</a>
+        <hr />
+    </li>
+</ul>
+    
+    <script type="text/javascript">
+    var seconds = 1.5;
+    $("#divBgFlick").click(function () {
+        var obj = $(this);
+        obj.text('变化背景' + seconds + '秒钟，请等待...');
+        MyUI.Effect.bgFlick({ ele: this, color: '#1af', time: seconds, callback: function () { obj.text('已完成，点击这里重复'); } });
+    });
+
+    var control;
+    function setChange() {
+        control = MyUI.Effect.changeForSeconds("content1", { href: "###" }, { cursor: "default", backgroundColor: "#ccd0d3" }, 10, function (timeLeft) {
+            $("#content1").text('点击这里(剩余' + timeLeft + '秒)');
+            if (timeLeft == 0) {
+                $("#content1").text('点击这里重新获取');
+            }
+        });
+    };
+    function resetChange() {
+        control.Reset();
+    };
+    </script>
+</body>
+</html>

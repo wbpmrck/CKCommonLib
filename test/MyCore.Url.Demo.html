@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示MyCore.Url功能</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyCore.Url.js"></script>
+</head>
+<body>
+<span>这个元素不可少(提供获取服务器根目录的数据)，但是应该隐藏:----><span id="rootUrl" style="color:Gray; border-color:#9F7F80; border-style:dotted;">http://127.0.0.1/test</span></span>
+<h1>演示MyCore.Url的功能</h1>
+<ul>
+    <li>1、GetRoot 函数
+        <div>
+        结果：<input type="text" id="testInput1"/>    <input type="button" value="点击 获取根目录" onclick="javascript:test1();" />
+        </div>
+        <hr />
+    </li>
+    <li>2、Action 函数（支持传入controller,action,para参数，自动拼成mvc格式的url）
+        <div>
+        结果：<input type="text" id="testInput2" style="width:800px;"/>    <input type="button" value="点击 获取Action地址" onclick="javascript:test2();" />
+        </div>
+        <hr />
+    </li>
+    <li>3、GetQueryStrObj 函数（根据传入的url，分析出查询字符串，返回对象）
+        <div>
+        结果：<input type="text" id="testInput3" style="width:800px;" value="http://122.12.33.33/test/home?a=123&b=456&c=hello!"/>    <input type="button" value="点击 获取查询字符串对象" onclick="javascript:test3();" />
+        </div>
+        <hr />
+    </li>
+    <li>4、GetNowUrlObj 函数（返回当前Url对象，可以对url的参数进行修改，转化为新的url）
+        <div>
+        结果：<input type="text" id="testInput4" style="width:800px;" value=""/>    <input type="button" value="点击 获取当前Url对象并进行修改后输出" onclick="javascript:test4();" />
+        </div>
+        <hr />
+    </li>
+   
+</ul>
+    
+    <script type="text/javascript">
+        function test1() {
+            $("#testInput1").val(MyCore.Url.getRoot());
+        }
+        function test2() {
+            $("#testInput2").val(MyCore.Url.action('index','home',{para1:'1234',para2:344,para3:'参数3'}));
+        }
+        function test3() {
+            var queryString = $("#testInput3").val();
+            var obj = MyCore.Url.getQueryStrObj(queryString);//这个对象就是查询字符串对象
+            for (var i in obj) {
+                if (!obj[i].prototype) {
+                    alert(i+":"+obj[i]);//打印出对象里的属性
+                }
+            }
+        }
+        function test4() {
+            var obj = MyCore.Url.getNowUrlObj();
+            obj.QueryStr.c = 3; //很方便的增加参数
+            obj.QueryStr.d = '又是一个参数'; //很方便的增加参数
+            $("#testInput4").val(decodeURI(obj.toString()));
+        }
+        
+    </script>
+</body>
+</html>

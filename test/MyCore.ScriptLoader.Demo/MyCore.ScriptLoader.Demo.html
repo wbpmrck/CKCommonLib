@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+  <meta http-equiv="Content" charset="utf-8" />
+		<title>演示   scriptLoader</title>
+    <!-- <link href="css/reset.css" rel="stylesheet" type="text/css" /> -->
+    <script type="text/javascript" src="../../MyCore.ScriptLoader.js"></script>
+       <!-- // <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script> -->
+	</head>
+	<body>
+
+        <h1>演示 scriptLoader</h1>
+        
+    
+        <script type="text/javascript">
+         MyCore.ScriptLoader.loadScript('externalFile.js',function(){
+            alert('success loaded!');
+         });
+        </script>
+
+	</body>
+</html>

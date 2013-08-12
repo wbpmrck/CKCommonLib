@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示MyUI.Drag功能</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyUI.Drag.js"></script>
+</head>
+<body>
+
+<h1>演示MyUI.Drag的功能</h1>
+<ul>
+    <li>1、setDragable 函数【使得元素可以拖动】【设置拖动后，容器的定位会变为“absolute”】
+        <div id="container" style=" border-style:dotted;width:200px;height:200px; background-color:#46a81d; text-align:center; vertical-align:middle; " >
+        <div id="titlediv"  style="  border-width:1px;border-color:Aqua;border-style:double;width:200px;height:50px; background-color:#d5df2d; text-align:center; vertical-align:middle;cursor:pointer;" >
+        现在不可拖动
+        </div>
+        这是一个div
+        </div>
+        <input type="button" value="点击这里设置可拖动" onclick="setDrag();"/>
+        <hr />
+    </li>
+</ul>
+    
+    <script type="text/javascript">
+        function setDrag() {
+            $("#titlediv").text("现在可以拖动我啦~");
+            MyUI.Drag.setDragable("titlediv", "container");
+        }
+    </script>
+</body>
+</html>

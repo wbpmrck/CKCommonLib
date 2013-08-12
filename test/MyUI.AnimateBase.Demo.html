@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>演示MyUI.AnimateBase功能</title>
+    <script type="text/javascript" src="JS/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../MyUI.AnimateBase.js"></script>
+</head>
+<body>
+
+<h1>演示MyUI.AnimateBase的功能</h1>
+<ul>
+    <li>1、AnimateBase的线性linear变化 函数【按照线性规则改变一属性】
+        <div id="Div1" class="demo" data-easing="linear" data-dur="1000"  style="width:200px;height:200px; background-color:#a2b; text-align:center; vertical-align:middle; cursor:pointer;" >
+            点击我会线性放大哦!
+        </div>
+        <hr />
+    </li>
+    <li>2、AnimateBase的easeOutBounce变化 函数【按照弹性规则改变一属性】
+        <div id="Div2"  class="demo"  data-easing="easeOutBounce" data-dur="2500"   style="width:200px;height:200px; background-color:#a2b; text-align:center; vertical-align:middle; cursor:pointer;" >
+            点击我会跳跃变化哦!
+        </div>
+        <hr />
+    </li>
+    <li>3、AnimateBase的easeOutBounce变化 函数【按照弹性规则改变一属性】
+        <div id="Div3"  class="demo"  data-easing="swingFrom" data-dur="1500"   style="width:200px;height:200px; background-color:#a2b; text-align:center; vertical-align:middle; cursor:pointer;" >
+            点击我会跳跃变化哦!
+        </div>
+        <hr />
+    </li>
+    <li>4、AnimateBase的 bounce 变化 函数【按照弹性规则改变一属性】
+        <div id="Div4"  class="demo"  data-easing="bounce" data-dur="1500"   style="width:200px;height:200px; background-color:#a2b; text-align:center; vertical-align:middle; cursor:pointer;" >
+            点击我会跳跃变化哦!
+        </div>
+        <hr />
+    </li>
+    <li>5、AnimateBase的 bouncePast 变化 函数【按照弹性规则改变一属性】
+        <div id="Div5"  class="demo"  data-easing="bouncePast" data-dur="1500"   style="width:200px;height:200px; background-color:#a2b; text-align:center; vertical-align:middle; cursor:pointer;" >
+            点击我会跳跃变化哦!
+        </div>
+        <hr />
+    </li>
+    <li>6、AnimateBase的 easeFrom 变化 函数【按照弹性规则改变一属性】
+        <div id="Div6"  class="demo"  data-easing="easeFrom" data-dur="1500"   style="width:200px;height:200px; background-color:#a2b; text-align:center; vertical-align:middle; cursor:pointer;" >
+            点击我会跳跃变化哦!
+        </div>
+        <hr />
+    </li>
+    <li>7、AnimateBase的 mirror 变化 函数【按照弹性规则改变一属性】
+        <div id="Div7"  class="demo"  data-easing="mirror" data-dur="1500"   style="width:200px;height:200px; background-color:#a2b; text-align:center; vertical-align:middle; cursor:pointer;" >
+            点击我会跳跃变化哦!
+        </div>
+        <hr />
+    </li>
+</ul>
+    
+    <script type="text/javascript">
+        var playing =false;
+        var begin =function(jqele){
+            var mode=$(jqele).attr("data-easing");
+            var duration=$(jqele).attr("data-dur");
+            MyUI.AnimateBase.animate(jqele,{width:600},duration,mode,function(){
+                MyUI.AnimateBase.animate(jqele,{width:200},duration,mode,function(){
+                    playing =false;
+                    alert("ok");
+                });
+            });
+        };
+        //测试动画功能
+        $(".demo").click(function(){
+            if(playing)
+            return;
+            playing=true;
+          begin(this);
+        });
+
+    </script>
+</body>
+</html>

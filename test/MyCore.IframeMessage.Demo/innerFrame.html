@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>这是一个内嵌的iframe,来自另外一个域</title>
+    <script type="text/javascript" src="../../MyCore.IframeMessage.js"></script>
+    
+</head>
+<body>
+<p>域名
+      <script>
+          document.write('(' + location.protocol + '//' + location.host + ')');
+      </script>
+</p>
+<p>
+      <input id="message" onkeypress="if(event.keyCode === 13){sendMessage();}">
+      <input type="button" value="send" onclick="sendMessage();">
+    </p>
+    <pre id="output"></pre>
+    
+    <script type="text/javascript">
+        var messenger = MyCore.IframeMessage.Messenger.initInIframe();
+        messenger.onmessage = function (data) {
+            var newline = '\n';
+            var text = document.createTextNode(data + newline);
+            document.getElementById('output').appendChild(text);
+        };
+
+        function sendMessage() {
+            var message = document.getElementById('message');
+            messenger.send(message.value);
+            message.value = '';
+        }
+    </script>
+</body>
+</html>
