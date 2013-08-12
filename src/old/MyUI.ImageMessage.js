@@ -27,7 +27,7 @@
 2012年7月11日17:42:36     版本创建
 //////////////////////////////////////////////////////////////////*/
 
-define('MyUI.ImageMessage', ['MyCore.WindowSize', 'MyCore.Config', 'MyCore.TagBuilder'], function (context) {
+define('MyUI.ImageMessage', ['MyCore.WindowSize.js', 'MyCore.Config', 'MyCore.TagBuilder'], function (context) {
     var self = context.self;
     var windowSizeModule = context.imports['MyCore.WindowSize'];
     var configModule = context.imports['MyCore.Config'];

@@ -618,7 +618,7 @@ function sz(el, p) {
 //#endregion
 
 
-define('MyUI.BlockUIBase', ['MyCore.WindowSize', 'MyCore.Config'], function (context) {
+define('MyUI.BlockUIBase', ['MyCore.WindowSize.js', 'MyCore.Config'], function (context) {
     var self = context.self;
     var windowSizeModule = context.imports['MyCore.WindowSize'];
     var configModule = context.imports['MyCore.Config'];

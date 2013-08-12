@@ -6,7 +6,7 @@
 用于测试智能感知
 */
 
-define('BizShared', ['MyOOP.Utils', 'MyOOP.Method'], function (context) {
+define('BizShared', ['MyOOP.Utils.js', 'MyOOP.Method'], function (context) {
     var a = context.imports['MyOOP.Utils']; //a就是该js库模块
     var b = context.imports.libs[1]; //支持索引下标访问
     
