@@ -5,15 +5,27 @@
 <hr/>
 
 ##Todos
-###Doing
+<hr/>
+
+###Done
 <ul>
  <li>重写ModuleSyntax模块.</li>
+ <li>使用karma+jasmine完成单元测试.</li>
+</ul>
+
+###Doing
+<ul>
+ <li>编写demo页面.</li>
+ <li>考虑如何将第三方模块快速包装成OneLib Module.</li>
 </ul>
 
 ###To be done
 <ul>
- <li>使用新的语法重构所有通用模块.</li>
- <li>添加testCase.</li>
+ <li>ES5的兼容性实现.</li>
+ <li>常用设计模式模块封装.</li>
+ <li>Json序列化模块.</li>
+ <li>DOM模块.</li>
+ <li>类jQuery选择器实现.</li>
 </ul>
 
 
