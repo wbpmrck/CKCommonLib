@@ -1,0 +1,27 @@
+[
+    {
+        "moduleName":"OneLib.Log",
+        "desc":"一个日志库，主要用于封装简单的记录日志功能。支持console和DOM记录2种方式。",
+        "linkEnable":false
+    },
+    {
+        "moduleName":"OneLib.GUID",
+        "desc":"该模块可以使用javascript生成GUID",
+        "linkEnable":true
+    },
+    {
+        "moduleName":"OneLib.CMDSyntax",
+        "desc":"CMD的模块封装库，依赖OneLib.Log. 其他模块都以这个模块为基础，编写基于CMD风格的代码",
+        "linkEnable":false
+    },
+    {
+        "moduleName":"OneLib.BrowserDetect",
+        "desc":"封装对浏览器版本进行检测的功能",
+        "linkEnable":false
+    },
+    {
+        "moduleName":"OneLib.ES5",
+        "desc":"对ECMAScript5的新特性中有用的部分进行实现，让其他不支持ES5的浏览器也可以使用到这些功能",
+        "linkEnable":false
+    }
+]

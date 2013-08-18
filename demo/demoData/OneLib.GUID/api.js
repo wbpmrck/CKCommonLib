@@ -1,0 +1,25 @@
+[
+    {
+        "name":"创建GUID",
+        "apis":[
+            {
+                "name":"getGUID",
+                "type":"function",
+                "params":[
+                    {"name":"len","type":"Number","desc":"生成的guid的长度"},
+                    {"name":"radix","type":"Number","desc":"生成的guid的数制，如2,10,16"}
+                ],
+                "demoCodeRefs":[
+                    {
+                        "name":"getGUID实例",
+                        "desc":"演示getGUID基本用法",
+                        "type":"example",
+                        "codeUrl":"/demo/demoData/OneLib.GUID/example.getGUID.html",
+                        "cssUrls":[],
+                        "javascriptUrls":[]
+                    }
+                ]
+            }
+        ]
+    }
+]

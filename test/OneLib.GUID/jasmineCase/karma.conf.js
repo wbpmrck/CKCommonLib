@@ -18,8 +18,8 @@ module.exports = function(config) {
     files: [
         '../../testLib/jquery*.js',
         '../../../src/OneLib.Log.js',
-        '../../../src/OneLib.ScriptLoader.js',
         '../../../src/OneLib.CMDSyntax.js',
+        '../../../src/OneLib.GUID.js',
         '*.js'
     ],
 

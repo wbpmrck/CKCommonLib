@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>演示首页</title>
+    <meta charset='utf-8'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/css/bootstrap.css" media="all">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/css/bootstrap-responsive.css" media="all">
+    <link rel="stylesheet" type="text/css" href="../css/index.css" media="all">
+</head>
+<body>
+
+<div id="root" class="container">
+
+    <div class="masthead">
+        <h3 class="muted" data-bind="text:projectName +　'('+demos.length+'个demo)'">Project name</h3>
+        <span data-bind="click:rollLeft" style="cursor: pointer;">
+            <svg height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><path fill="none" stroke="#ffffff" d="M16,30.534C24.027,30.534,30.534,24.027,30.534,15.999999999999998C30.534,7.972999999999999,24.027,1.4659999999999975,15.999999999999998,1.4659999999999975C7.973,1.466,1.466,7.973,1.466,16C1.466,24.027,7.973,30.534,16,30.534ZM18.335,6.276L21.871000000000002,9.814L15.684000000000001,16.001L21.871000000000002,22.188000000000002L18.335,25.725L8.612,16.001L18.335,6.276Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0;"></path><path fill="#333333" stroke="none" d="M16,30.534C24.027,30.534,30.534,24.027,30.534,15.999999999999998C30.534,7.972999999999999,24.027,1.4659999999999975,15.999999999999998,1.4659999999999975C7.973,1.466,1.466,7.973,1.466,16C1.466,24.027,7.973,30.534,16,30.534ZM18.335,6.276L21.871000000000002,9.814L15.684000000000001,16.001L21.871000000000002,22.188000000000002L18.335,25.725L8.612,16.001L18.335,6.276Z" transform="matrix(1,0,0,1,4,4)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><rect x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0;"></rect></svg>
+        </span>
+        <span data-bind="click:rollRight" style="cursor: pointer;">
+            <svg height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; "><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><path fill="none" stroke="#ffffff" d="M16,1.466C7.973,1.466,1.466,7.973,1.466,16C1.466,24.027,7.973,30.534,16,30.534C24.027,30.534,30.534,24.027,30.534,15.999999999999998C30.534,7.973,24.027,1.466,16,1.466ZM13.665,25.725L10.129,22.186L16.316,15.998999999999999L10.128999999999998,9.811999999999998L13.664999999999997,6.275999999999998L23.388999999999996,15.998999999999999L13.665,25.725Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0;"></path><path fill="#333333" stroke="none" d="M16,1.466C7.973,1.466,1.466,7.973,1.466,16C1.466,24.027,7.973,30.534,16,30.534C24.027,30.534,30.534,24.027,30.534,15.999999999999998C30.534,7.973,24.027,1.466,16,1.466ZM13.665,25.725L10.129,22.186L16.316,15.998999999999999L10.128999999999998,9.811999999999998L13.664999999999997,6.275999999999998L23.388999999999996,15.998999999999999L13.665,25.725Z" transform="matrix(1,0,0,1,4,4)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><rect x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0;"></rect></svg>
+        </span>
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    <ul class="nav" data-bind="foreach:demosVisible">
+                        <li data-bind="click:$root.demoClick,attr:{class:isCur()?'active':''}"><a href="javascript:void(0);" data-bind="text:'('+(parseInt($index())+parseInt($root.firstVisibleIndex())+1)+')'+ moduleName"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div><!-- /.navbar -->
+    </div>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+        <h1 data-bind="text:curDemo().moduleName">moduleName</h1>
+        <hr/>
+        <p class="lead" data-bind="text:'内容简介:“'+curDemo().desc+'”'"></p>
+        <a class="btn btn-large btn-success" data-bind="text:curDemo().linkEnable?'进入演示页面':'开发中...',attr:{href:curDemo().linkEnable?('./OneLib.DemoTemplate.html?module='+curDemo().moduleName):'javascript:void(0);'}"></a>
+    </div>
+
+    <hr>
+
+    <hr>
+
+    <div class="footer">
+        <p>&copy; wbpmrck 2013</p>
+    </div>
+
+</div> <!-- /container -->
+
+<!--通用脚本-->
+<script type="text/javascript" src="../scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../scripts/knockout-2.3.0.js"></script>
+<script type="text/javascript" src="../css/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="../../src/OneLib.Log.js"></script>
+<script type="text/javascript" src="../../src/OneLib.ScriptLoader.js"></script>
+<script type="text/javascript" src="../../src/OneLib.CMDSyntax.js"></script>
+<script type="text/javascript" src="../scripts/jquery.wrap.CMD.js"></script>
+<script type="text/javascript" src="../scripts/knockout.wrap.CMD.js"></script>
+
+
+<!--首页脚本-->
+<script type="text/javascript" src="../scripts/demo.index.js"></script>
+
+</body>
+</html>

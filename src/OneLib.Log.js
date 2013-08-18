@@ -6,9 +6,6 @@
 1、自定义的日志输出类
 -----------
 版本历史：
-2012年5月29日19:20:13      功能添加
-1、增加控制台输出API:writeConsole，方便调试。
-
 
 2012年3月25日10:18:02      版本创建
 //////////////////////////////////////////////////////////////////*/
@@ -80,6 +77,13 @@ OneLib.Log = (function (my) {
             if (OneLib.Log.configs.enable===true || (self.enable === true && OneLib.Log.configs.enable!==false)){
                 _logMethod(msg);
             }
+        };
+
+        /**
+         * 清除所有日志
+         */
+        self.clear = function(){
+            //todo:如何在没有jquery的情况下一次删除所有的DOM日志，需要考虑
         };
         /**
          * 设置采用body文本时的样式

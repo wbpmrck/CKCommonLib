@@ -28,7 +28,7 @@ MyCore.ScriptLoader = (function (my) {
 
 	my.loadScript = function(url,callback){
 		var _script = document.createElement('script');
-		_script.type ='text/javascipt';
+		_script.type ='text/javascript';
 		if (_script.readyState) {//IE
 			_script.onreadystatechange =function(){
 				if (_script.readyState=='loaded'||_script.readyState=='complete') {

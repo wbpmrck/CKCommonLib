@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>演示:OneLib.CMDSyntax 实现CMD模块定义</title>
+    <meta charset='utf-8'/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/css/bootstrap.css" media="all">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/css/bootstrap-responsive.css" media="all">
+    <link rel="stylesheet" type="text/css" href="../css/demoBase.css" media="all">
+</head>
+<body id="root">
+
+<div id="demo_header" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="index.html" class="goHome">
+                <svg height="40" version="1.1" width="40" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; ">
+                    <desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.0</desc>
+                    <defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs>
+                    <path fill="none" stroke="#ffffff" d="M16,30.534C24.027,30.534,30.534,24.027,30.534,15.999999999999998C30.534,7.972999999999999,24.027,1.4659999999999975,15.999999999999998,1.4659999999999975C7.973,1.466,1.466,7.973,1.466,16C1.466,24.027,7.973,30.534,16,30.534ZM18.335,6.276L21.871000000000002,9.814L15.684000000000001,16.001L21.871000000000002,22.188000000000002L18.335,25.725L8.612,16.001L18.335,6.276Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0;"></path>
+                    <path fill="#aaaacc" stroke="none" d="M16,30.534C24.027,30.534,30.534,24.027,30.534,15.999999999999998C30.534,7.972999999999999,24.027,1.4659999999999975,15.999999999999998,1.4659999999999975C7.973,1.466,1.466,7.973,1.466,16C1.466,24.027,7.973,30.534,16,30.534ZM18.335,6.276L21.871000000000002,9.814L15.684000000000001,16.001L21.871000000000002,22.188000000000002L18.335,25.725L8.612,16.001L18.335,6.276Z" transform="matrix(1,0,0,1,4,4)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    <rect x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0;"></rect></svg>
+            </a>
+            <a class="brand" href="javascript:void(0);" data-bind="text:'演示：'+projectName+'相关功能'"></a>
+
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div id="justTakePosition" class="span3">
+        </div>
+        <div id="demo_leftSlider"  class="span3 leftSlideContainer">
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list" data-bind="style:{maxHeight:leftSliderStyle.maxHeight}">
+                    <li class="nav-header">Sidebar</li>
+                    <li class="active"><a href="#">Link</a></li>
+                    <li><a href="#demo_define">define</a></li>
+                    <li><a href="#demo_define2">define2</a></li>
+                    <li><a href="#demo_define3">define3</a></li>
+                    <li class="nav-header">Sidebar</li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="nav-header">Sidebar</li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                    <li><a href="#">Link</a></li>
+                </ul>
+            </div><!--/.well -->
+        </div><!--/span-->
+        <div  id="demo_rightDemos" class="span9">
+            <div class="hero-unit" data-bind="style:{minHeight:rightDemoStyle.minHeight}">
+
+                <div class="apiRegion">
+                    <a class="anchor" name="demo_define" href="#demo_define">define 方法</a>
+                    <ul class="apiParams">
+                        <li class="apiParam">122</li>
+                        <li class="apiParam">333</li>
+                    </ul>
+                    <span>示例:</span><br/>
+                    <pre>
+                        <code data-language="javascript">
+                            def openFile(path):
+                            file = open(path, "r")
+                            content = file.read()
+                            file.close()
+                            return content
+                        </code>
+                    </pre>
+                </div>
+
+                <div class="APIRegion">
+                    <a class="anchor" name="demo_define2" href="#demo_define2">define2 方法</a>
+                    <ul class="apiParams">
+                        <li class="apiParam">122</li>
+                        <li class="apiParam">333</li>
+                    </ul>
+                    <span>示例:</span><br/>
+                    <pre>
+                        <code data-language="javascript">
+                            def openFile(path):
+                            file = open(path, "r")
+                            content = file.read()
+                            file.close()
+                            return content
+                        </code>
+                    </pre>
+                </div>
+
+                <div class="APIRegion">
+                    <a class="anchor" name="demo_define3" href="#demo_define3">define3 方法</a>
+                    <ul class="apiParams">
+                        <li class="apiParam">122</li>
+                        <li class="apiParam">333</li>
+                    </ul>
+                    <span>示例:</span><br/>
+                    <pre>
+                        <code data-language="javascript">
+                            def openFile(path):
+                            file = open(path, "r")
+                            content = file.read()
+                            file.close()
+                            return content
+                        </code>
+                    </pre>
+                </div>
+                
+            </div>
+        </div><!--/span-->
+    </div><!--/row-->
+
+    <hr>
+
+    <footer>
+        <p>&copy; wbpmrck 2013</p>
+    </footer>
+
+</div><!--/.fluid-container-->
+
+<!--通用脚本-->
+<script type="text/javascript" src="../scripts/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="../scripts/knockout-2.3.0.js"></script>
+<script type="text/javascript" src="../css/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="../../src/OneLib.Log.js"></script>
+<script type="text/javascript" src="../../src/OneLib.CMDSyntax.js"></script>
+<script type="text/javascript" src="../scripts/jquery.wrap.CMD.js"></script>
+<script type="text/javascript" src="../scripts/knockout.wrap.CMD.js"></script>
+<script type="text/javascript" src="../scripts/demo.common.js"></script>
+
+<!--demo脚本-->
+<script type="text/javascript" src="../scripts/demo.OneLib.GUID.js"></script>
+
+
+</body>
+</html>
