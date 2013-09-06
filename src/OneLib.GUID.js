@@ -43,6 +43,13 @@ define('OneLib.GUID', [], function (require, exports, module) {
         }
         return uuid.join('');
     }
+
+    /**
+     * 生成一个GUID
+     * @param len:限制生成的GUID的数量
+     * @param radix:生成GUID的数制，可以传2,8,10，16等
+     * @return {*}
+     */
     exports.getGUID = function(len,radix){
         return guid(len,radix);
     };

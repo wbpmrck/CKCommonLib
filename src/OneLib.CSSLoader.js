@@ -97,7 +97,7 @@ define('OneLib.CSSLoader', [], function (require, exports, module) {
                 // Dereference the node
                 node = null
 
-                callback(_cIdentity)
+                callback&&callback(_cIdentity)
 //                callback()
             }
         }
@@ -133,7 +133,7 @@ define('OneLib.CSSLoader', [], function (require, exports, module) {
             if (isLoaded) {
                 // Place callback here to give time for style rendering
 //                callback()
-                callback(node.href || node.src)
+                callback&&callback(node.href || node.src)
             }
             else {
                 pollCss(node, callback)

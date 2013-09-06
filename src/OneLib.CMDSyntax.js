@@ -10,7 +10,9 @@
 
 by kaicui 2013-8-17 13:48:31       版本创建
  //////////////////////////////////////////////////////////////////*/
-var OneLib = (function (my) {return my;} (OneLib || {}));
+
+var global = global||window;
+var OneLib = (function (my) {return my;} (global['OneLib'] ||(global['OneLib']={})));
 
 OneLib.CMDSyntax = (function (my,global) {
     if(!OneLib.hasOwnProperty('Log')){
@@ -20,7 +22,16 @@ OneLib.CMDSyntax = (function (my,global) {
         throw new Error('need OneLib.ScriptLoader Module!');
     }
     var _copy=function(obj){
-        var _dump ={};
+        var _dump;
+        //判断原对象是否是函数
+        if(typeof(obj)==='function'){
+            _dump = function(){
+                return obj.apply(this,arguments);
+            };
+        }
+        else{
+            _dump ={};
+        }
         for(var i in obj){
             _dump[i] = obj[i];
         }
@@ -53,7 +64,12 @@ OneLib.CMDSyntax = (function (my,global) {
      * @param name
      */
     _Module.prototype.getExportsCopy = function(){
-       return _copy(this.exports);
+        if(this.exports!==global){
+            return _copy(this.exports);
+        }
+        else{
+            return this.exports;
+        }
     };
     _Module.prototype.init = function(){
         var self = this;//save the this ref
@@ -97,6 +113,9 @@ OneLib.CMDSyntax = (function (my,global) {
         else{
             self.exports =_innerModule.exports;
         }
+
+        //update alias
+        _configs.alias[self.name] = self.name;
     };
 
     var _logger = new OneLib.Log.Logger(false),
@@ -108,10 +127,27 @@ OneLib.CMDSyntax = (function (my,global) {
         _reserved={'global':1,'window':1},
         //已经加载的模块
         _modules={
-          'global':global//模块载入的时候，把window缓存起来备用
         },
         //配置项
         _configs={
+            // 基础路径（其他所有模块的路径都以它为基础）
+            base: 'http://asada',
+            // 变量配置
+            vars: {
+//                'home': '',
+//                'pack': '/pack'
+            },
+            //配置模块的下载地址:可以使用{vars}来简化路径
+            modulePath:{
+//                'Module1':'{home}/{mode}/m1.js'
+            },
+            packs:{
+//                '{pack}/{mode}/p1.js':['Module1','Module2']
+            },
+            //配置:处理冲突
+            dealConflicts:{
+                moduleNameConflict:'throw' //当定义的模块名冲突的时候如何处理：'throw':抛出异常, 'return':忽略本次模块定义 , 'overwrite':使用本次定义的模块覆盖已有模块
+            },
             //配置:别名
             alias:{
                 '_Log':'OneLib.Log',//OneLib 日志模块
@@ -137,19 +173,86 @@ OneLib.CMDSyntax = (function (my,global) {
         },
     //检查模块名，可以使用则返回true,否则抛出异常
         _checkNameAndThrow = function(name){
-          if(_reserved[name]||_modules.hasOwnProperty(name)){
-              throw new Error('ModuleName:['+name+'] has been used!');
-          }
-          else if(name===null||name==undefined||name===''){
-              throw new Error('ModuleName cannot be empty!');
-          }
-            return true;
+            if(_reserved[name]||_modules.hasOwnProperty(name)){
+                throw new Error('ModuleName:['+name+'] has been used!');
+            }
+            else if(name===null||name==undefined||name===''){
+                throw new Error('ModuleName cannot be empty!');
+            }
+            else{
+                return true;
+            }
+        },
+        _checkNameInLegal = function(name){
+            if(_reserved[name]||_modules.hasOwnProperty(name)){
+                return 'existed';
+            }
+            else if(name===null||name==undefined||name===''){
+                throw new Error('ModuleName cannot be empty!');
+            }
+            else{
+                return undefined;
+            }
         },
 
         _getRealModule = function(moduleName){
             moduleName = _transAlias(moduleName);
             return _modules[moduleName];
-        };
+        },
+        _;
+
+    /**
+     * 加载入口模块
+     * @param moduleName:入口模块的名称
+     * @param callback:{Function(module)}获取到该入口模块后，执行的回调.
+     */
+    my.use =function(moduleName,callback){
+        _log('>>use:: [' + moduleName + '] begin...');
+        //检查缓存里有没有
+        var _used = _getRealModule(moduleName);
+        if(_used){
+            callback&&callback(_used.getExportsCopy())
+        }
+        //没有的话获取其下载地址，然后异步加载
+        else{
+
+        }
+    };
+
+    /**
+     * 设置基础路径
+     * @param baseUrl
+     */
+    my.setBase = function(baseUrl){
+        _configs.base = baseUrl;
+        return my;
+    };
+
+
+    /**
+     * 设置变量
+     * @param vars:{key,value}
+     * @return {*}
+     */
+    my.setVars = function(vars){
+        for(var i in vars){
+            _configs[i]=vars[i];
+        }
+        return my;
+    };
+
+    /**
+     * 配置冲突处理策略(moduleNameConflict:'throw'/'return'/'overwrite')
+     * @param conflictConfig
+     */
+    my.configDealConflicts = function(conflictConfig){
+        for(var i in conflictConfig){
+            if(_configs.dealConflicts.hasOwnProperty(i)){
+                _configs.dealConflicts[i] = conflictConfig[i];
+            }
+        }
+        return my;
+    }
 
     /**
      * 添加/重写别名，系统保护的别名不允许重写。
@@ -161,11 +264,27 @@ OneLib.CMDSyntax = (function (my,global) {
                 _configs.alias[i] = alias[i];
             }
         }
+        return my;
     };
     global['define']=my.define = function(moduleName,dependency,factory){
         _log('>>define:: [' + moduleName + '] begin...');
-        if(_checkNameAndThrow(moduleName)){
+        //如果模块名合法、没有冲突
+        if(!_checkNameInLegal(moduleName)){
             _modules[moduleName] =  new _Module(moduleName,dependency,factory);
+        }
+        //模块名有冲突，则查看配置
+        else{
+            var _deal = _configs.dealConflicts.moduleNameConflict;
+            if(_deal==='overwrite'){
+                _log('>>define:: [' + moduleName + '] overwrite exist module...');
+                _modules[moduleName] =  new _Module(moduleName,dependency,factory);
+            }
+            else if(_deal==='return'){
+                _log('>>define:: [' + moduleName + '] name existed,return...');
+            }
+            else{
+                throw new Error('ModuleName:['+moduleName+'] has been used!');
+            }
         }
         _log('>>define:: [' + moduleName + '] end(success)...');
     };
@@ -186,10 +305,27 @@ OneLib.CMDSyntax = (function (my,global) {
      */
     my.wrapToModule = function(moduleName,exports){
         _log('>>wrapToModule:: [' + moduleName + '] begin...');
-        if(_checkNameAndThrow(moduleName)){
+        //如果模块名合法、没有冲突
+        if(!_checkNameInLegal(moduleName)){
             _modules[moduleName] =  new _Module(moduleName,[],function(){
                 return exports;
             },exports);
+        }
+        //模块名有冲突，则查看配置
+        else{
+            var _deal = _configs.dealConflicts.moduleNameConflict;
+            if(_deal==='overwrite'){
+                _log('>>wrapToModule:: [' + moduleName + '] overwrite exist module...');
+                _modules[moduleName] =  new _Module(moduleName,[],function(){
+                    return exports;
+                },exports);
+            }
+            else if(_deal==='return'){
+                _log('>>wrapToModule:: [' + moduleName + '] name existed,return...');
+            }
+            else{
+                throw new Error('ModuleName:['+moduleName+'] has been used!');
+            }
         }
         _log('>>wrapToModule:: [' + moduleName + '] end(success)...');
     };
@@ -245,6 +381,12 @@ OneLib.CMDSyntax = (function (my,global) {
 
     //使用console输出信息
     _logger.setMode(0);
+
+    //把内置模块封装进去
+    _modules['global'] =  new _Module('global',[],function(){
+        return window;
+    },window);
+
     my.wrapToModule('OneLib.Log',OneLib.Log);
     my.wrapToModule('OneLib.ScriptLoader',OneLib.ScriptLoader);
     //根据浏览器queryString是否含有 CMDSyntaxDebug 选项，来决定是否开启日志
